@@ -1,6 +1,6 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404
-
+import json
 from places.models import Place, PlaceImage
 
 
@@ -37,4 +37,5 @@ def place_detail(request, place_id):
         'description_long': place.description_long,
         'coordinates': place.coordinates,
     }
-    return JsonResponse(data, safe=False)
+    data = json.dumps(data, ensure_ascii=False)
+    return HttpResponse(data, content_type='application/json')
