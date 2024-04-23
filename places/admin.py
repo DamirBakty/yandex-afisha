@@ -1,13 +1,14 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
+from adminsortable2.admin import SortableAdminMixin, SortableTabularInline
 
 from places.models import Place, PlaceImage
 
 
-class PlaceImageInline(admin.TabularInline):
+class PlaceImageInline(SortableTabularInline):
     model = PlaceImage
     readonly_fields = ('get_preview',)
-    fields = ('id', 'image', 'get_preview',)
+    fields = ('order', 'image', 'get_preview')
 
     def get_preview(self, obj):
         max_height = 200
@@ -22,15 +23,10 @@ class PlaceImageInline(admin.TabularInline):
 
 
 @admin.register(Place)
-class PlaceAdmin(admin.ModelAdmin):
+class PlaceAdmin(SortableAdminMixin, admin.ModelAdmin):
     inlines = [PlaceImageInline]
-    readonly_fields = ('image',)
 
-    def image(self, obj):
-        return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
-            url=obj.headshot.url,
-            width=obj.headshot.width,
-            height=obj.headshot.height,
-        ))
 
-admin.site.register(PlaceImage)
+@admin.register(PlaceImage)
+class PlaceImageAdmin(SortableAdminMixin, admin.ModelAdmin):
+    list_display = ('order', 'image')
