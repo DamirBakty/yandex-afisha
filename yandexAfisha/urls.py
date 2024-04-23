@@ -21,5 +21,5 @@ from yandexAfisha import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('map.urls'))
+    path('', include('places.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -58,7 +58,7 @@ L.Control.Sidebar = L.Control.extend({
 
     this._map = map;
 
-    // Make sure we don't drag the map when we interact with the content
+    // Make sure we don't drag the places when we interact with the content
     var stop = L.DomEvent.stopPropagation;
     var fakeStop = L.DomEvent._fakeStop || stop;
     L.DomEvent
@@ -84,7 +84,7 @@ L.Control.Sidebar = L.Control.extend({
     var controlContainer = map._controlContainer;
     controlContainer.removeChild(container);
 
-    //disassociate the map object
+    //disassociate the places object
     this._map = null;
 
     // Unregister events to prevent memory leak
