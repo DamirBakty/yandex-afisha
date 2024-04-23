@@ -1,7 +1,10 @@
-from django.http import JsonResponse, HttpResponse
-from django.shortcuts import render, get_object_or_404
 import json
-from places.models import Place, PlaceImage
+
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
+
+from places.models import Place
 
 
 def index(request):
@@ -18,7 +21,7 @@ def index(request):
                 "properties": {
                     "title": place.title,
                     "placeId": place.id,
-                    "detailsUrl": f"/place/{place.id}"
+                    "detailsUrl": reverse('places:place_detail', kwargs={'place_id': place.id})
                 }
             } for place in places]
     }
