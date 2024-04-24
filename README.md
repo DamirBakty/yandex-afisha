@@ -37,6 +37,18 @@ $ python manage.py createsuperuser
 $ python manage.py runserver
 ```
 
+* Заходим в админку по пути /admin
+* Заполняем локации:
+* * Название Локации
+* * Короткое описание
+* * Полное описание
+* * Координаты в формате JSON, Пример: 
+* ```json
+  {
+  "lng": "37.64912239999976", 
+  "lat": "55.77754550000014"
+  }
+
 ## Настройки
 
 ![debug mode](.gitbook/assets/debug-option.png)

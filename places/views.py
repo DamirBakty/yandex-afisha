@@ -8,7 +8,7 @@ from places.models import Place
 
 
 def index(request):
-    places = Place.objects.all().prefetch_related('images')
+    places = Place.objects.all()
     context = {
         "type": "FeatureCollection",
         "features": [
