@@ -1,6 +1,7 @@
 # Куда пойти - Проект по Джанго
 
 Тестовый проект по Django о самых интересных местах в Москве.
+<br>
 [Сайт](https://pythonenjoyer228.pythonanywhere.com/)
 <br>
 [Источник](https://github.com/devmanorg/where-to-go-frontend/?tab=readme-ov-file)
