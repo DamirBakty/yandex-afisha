@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.gis.db.models import PointField
+from tinymce.models import HTMLField
 
 # Create your models here
 
@@ -7,7 +7,7 @@ from django.contrib.gis.db.models import PointField
 class Place(models.Model):
     title = models.CharField(max_length=255)
     description_short = models.CharField(max_length=255)
-    description_long = models.TextField()
+    description_long = HTMLField()
     coordinates = models.JSONField(default=dict())
 
     def __str__(self):
