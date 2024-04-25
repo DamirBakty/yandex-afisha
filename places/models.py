@@ -5,6 +5,9 @@ from tinymce.models import HTMLField
 
 
 class Place(models.Model):
+    """
+    Моделька Place
+    """
     title = models.CharField(max_length=255, verbose_name='Название')
     description_short = models.CharField(max_length=255, verbose_name='Короткое описание')
     description_long = HTMLField(verbose_name='Полное описание')

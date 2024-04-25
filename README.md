@@ -19,8 +19,10 @@
 $ pip install -r requirements.txt
 ```
 
-* Создайте .env файл и скопируйте содержимое .env.example
+* Создайте .env файл и скопируйте содержимое из .env.example
 * Поменяйте данные под свой проект
+* * SECRET_KEY - набор из случайных символов для защиты от CSRF
+* * DEBUG - Значение которое включает и выключает режим отладки проекта. Варианты: True или False
 * Экспортируйте переменные из .env в переменные окружения
 * Сделайте миграцию в базу данных
 
@@ -50,6 +52,16 @@ $ python manage.py runserver
   "lng": "37.64912239999976", 
   "lat": "55.77754550000014"
   }
+
+* Автоматическая загрузка данных
+* Пишем команду в терминале python manage.py load_place [url]
+* Данные берем по [ссылке](https://github.com/devmanorg/where-to-go-places)
+* В папке places лежат JSON файлы, читаем в формате Raw и копируем ссылку
+* Пример:
+```bash
+python manage.py load_place https://raw.githubusercontent.com/devmanorg/where-to-go-places/master/places/%D0%90%D1%80%D1%82-%D0%BF%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D0%BD%D1%81%D1%82%D0%B2%D0%BE%20%C2%AB%D0%91%D1%83%D0%BD%D0%BA%D0%B5%D1%80%20703%C2%BB.json
+```
+
 
 ## Настройки
 
