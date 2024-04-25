@@ -8,6 +8,7 @@ media
 
 # Backup files #
 *.bak
+.idea
 
 # If you are using PyCharm #
 # User-specific stuff
@@ -48,6 +49,9 @@ atlassian-ide-plugin.xml
 # Python #
 *.py[cod]
 *$py.class
+__pycache__/
+*.pyd
+*.pyo
 
 # Distribution / packaging
 .Python build/
