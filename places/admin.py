@@ -1,5 +1,6 @@
 from adminsortable2.admin import SortableAdminMixin, SortableTabularInline
 from django.contrib import admin
+from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 
 from places.models import Place, PlaceImage
@@ -8,18 +9,20 @@ from places.models import Place, PlaceImage
 class PlaceImageInline(SortableTabularInline):
     model = PlaceImage
     readonly_fields = ('get_preview',)
-    fields = ('order', 'image', 'get_preview')
+    fields = ('order', 'get_preview')
 
     def get_preview(self, obj):
-        max_height = 200
         height = obj.image.height
-        if height > max_height:
-            height = 200
+        width = obj.image.width
 
-        return mark_safe('<img src="{url}" height={height} />'.format(
-            url=obj.image.url,
-            height=height,
-        ))
+        formatted_html = format_html(
+            '<img style="max-height: 200px; max-width: 200px;" src="{}" height="{}" width="{}"/> />',
+            obj.image.url,
+            height,
+            width
+        )
+        return formatted_html
+
 
 
 @admin.register(Place)
@@ -31,3 +34,4 @@ class PlaceAdmin(SortableAdminMixin, admin.ModelAdmin):
 @admin.register(PlaceImage)
 class PlaceImageAdmin(SortableAdminMixin, admin.ModelAdmin):
     list_display = ('order', 'image')
+
