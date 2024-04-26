@@ -10,21 +10,21 @@ from places.models import Place
 def index(request):
     places = Place.objects.all()
     context = {
-        "type": "FeatureCollection",
-        "features": [
+        'type': 'FeatureCollection',
+        'features': [
             {
-                "type": "Feature",
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Point',
+                    'coordinates': [
                         float(place.coordinates.get('lng')),
                         float(place.coordinates.get('lat'))
                     ]
                 },
-                "properties": {
-                    "title": place.title,
-                    "placeId": place.id,
-                    "detailsUrl": reverse(
+                'properties': {
+                    'title': place.title,
+                    'placeId': place.id,
+                    'detailsUrl': reverse(
                         'places:place_detail',
                         kwargs={'place_id': place.id}
                     )

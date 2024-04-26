@@ -34,7 +34,7 @@ class PlaceImage(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name='images', verbose_name='Локация')
 
     def __str__(self):
-        return f"{self.order} {self.place}"
+        return f'{self.order} {self.place}'
 
     class Meta:
         verbose_name = 'Картинка'
