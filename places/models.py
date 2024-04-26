@@ -7,18 +7,29 @@ class Place(models.Model):
     short_description = models.TextField(verbose_name='Короткое описание', null=True, blank=True)
     long_description = HTMLField(verbose_name='Полное описание', null=True, blank=True)
     coordinates = models.JSONField(default=dict(), verbose_name='Координаты', null=True, blank=True)
-
-    def __str__(self):
-        return self.title
+    lng = models.FloatField(null=True, blank=True)
+    lat = models.FloatField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'Локация'
         verbose_name_plural = 'Локации'
         ordering = ['id']
 
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        if self.lng and self.lat:
+            self.coordinates = {
+                'lng': self.lng,
+                'lat': self.lat
+            }
+        super(Place, self).save(*args, **kwargs)
+
+
 
 class PlaceImage(models.Model):
-    order = models.PositiveIntegerField(default=0, blank=True, null=True, verbose_name='Порядковый номер')
+    order = models.PositiveIntegerField(default=0, verbose_name='Порядковый номер')
     image = models.ImageField(upload_to='place_images/', verbose_name='Картинка')
     place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name='images', verbose_name='Локация')
 

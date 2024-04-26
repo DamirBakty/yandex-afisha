@@ -23,7 +23,6 @@ SECRET_KEY = env.str('SECRET_KEY', default='NOT_SECRET')
 
 DEBUG = env.bool('DEBUG', default=False)
 
-print(DEBUG)
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['127.0.0.1', 'localhost'])
 
 INSTALLED_APPS = [
