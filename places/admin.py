@@ -9,7 +9,7 @@ from places.models import Place, PlaceImage
 class PlaceImageInline(SortableTabularInline):
     model = PlaceImage
     readonly_fields = ('get_preview',)
-    fields = ('order', 'get_preview')
+    fields = ('order', 'get_preview', 'image')
 
     def get_preview(self, obj):
         height = obj.image.height
@@ -34,4 +34,5 @@ class PlaceAdmin(SortableAdminMixin, admin.ModelAdmin):
 @admin.register(PlaceImage)
 class PlaceImageAdmin(SortableAdminMixin, admin.ModelAdmin):
     list_display = ('order', 'image')
+    autocomplete_fields = ("place",)
 
