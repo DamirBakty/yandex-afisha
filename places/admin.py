@@ -16,7 +16,7 @@ class PlaceImageInline(SortableTabularInline):
         width = obj.image.width
 
         formatted_html = format_html(
-            '<img style="max-height: 200px; max-width: 200px;" src="{}" height="{}" width="{}"/> />',
+            '<img style="max-height: 200px; max-width: 200px;" src="{}" height="{}" width="{}" />',
             obj.image.url,
             height,
             width
