@@ -28,9 +28,9 @@ class Command(BaseCommand):
                 coordinates = place_response.json()['coordinates']
                 place = Place(
                     title=title,
-                    description_long=description_long,
+                    long_description=description_long,
                     coordinates=coordinates,
-                    description_short=description_short
+                    short_description=description_short
                 )
                 place.save()
 
