@@ -45,8 +45,8 @@ def place_detail(request, place_id):
     data = {
         'title': place.title,
         'imgs': [image.image.url for image in place.images.all()],
-        'description_short': place.description_short,
-        'description_long': place.description_long,
+        'description_short': place.long_description,
+        'description_long': place.short_description,
         'coordinates': place.coordinates,
     }
     data = json.dumps(data, ensure_ascii=False)
