@@ -1,13 +1,8 @@
 from django.db import models
 from tinymce.models import HTMLField
 
-# Create your models here
-
 
 class Place(models.Model):
-    """
-    Моделька Place
-    """
     title = models.CharField(max_length=255, verbose_name='Название')
     description_short = models.CharField(max_length=255, verbose_name='Короткое описание')
     description_long = HTMLField(verbose_name='Полное описание')
@@ -27,7 +22,6 @@ class PlaceImage(models.Model):
     image = models.ImageField(upload_to='place_images/', verbose_name='Картинка')
     place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name='images', verbose_name='Локация')
 
-
     def __str__(self):
         return f"{self.order} {self.place}"
 
@@ -35,5 +29,3 @@ class PlaceImage(models.Model):
         verbose_name = 'Картинка'
         verbose_name_plural = 'Картинки'
         ordering = ['order']
-
-

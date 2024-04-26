@@ -1,6 +1,6 @@
+from adminsortable2.admin import SortableAdminMixin, SortableTabularInline
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from adminsortable2.admin import SortableAdminMixin, SortableTabularInline
 
 from places.models import Place, PlaceImage
 
