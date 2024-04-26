@@ -16,19 +16,28 @@ def index(request):
                 "type": "Feature",
                 "geometry": {
                     "type": "Point",
-                    "coordinates": [float(place.coordinates.get('lng')), float(place.coordinates.get('lat'))]
+                    "coordinates": [
+                        float(place.coordinates.get('lng')),
+                        float(place.coordinates.get('lat'))
+                    ]
                 },
                 "properties": {
                     "title": place.title,
                     "placeId": place.id,
-                    "detailsUrl": reverse('places:place_detail', kwargs={'place_id': place.id})
+                    "detailsUrl": reverse(
+                        'places:place_detail',
+                        kwargs={'place_id': place.id}
+                    )
                 }
-            } for place in places]
+            } for place in places
+        ]
     }
-    return render(request, 'map/index.html',
-                  context={
-                      'data': context
-                  })
+    return render(
+        request,
+        'places/index.html',
+        context={
+            'data': context
+        })
 
 
 def place_detail(request, place_id):
