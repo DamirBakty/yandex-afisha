@@ -11,16 +11,17 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+from environs import Env
 
-from dotenv import load_dotenv
-
-load_dotenv()
+env = Env()
+env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = env.str('SECRET_KEY')
 
-DEBUG = os.getenv('DEBUG') == 'True'
+DEBUG = env.bool('DEBUG')
+
 
 ALLOWED_HOSTS = ['*']
 
