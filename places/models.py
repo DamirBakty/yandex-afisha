@@ -40,3 +40,6 @@ class PlaceImage(models.Model):
         verbose_name = 'Картинка'
         verbose_name_plural = 'Картинки'
         ordering = ['order']
+        indexes = [
+            models.Index(fields=['order'])
+        ]
