@@ -17,8 +17,8 @@ def index(request):
                 'geometry': {
                     'type': 'Point',
                     'coordinates': [
-                        float(place.coordinates.get('lng')),
-                        float(place.coordinates.get('lat'))
+                        place.lng,
+                        place.lat
                     ]
                 },
                 'properties': {
@@ -47,7 +47,7 @@ def place_detail(request, place_id):
         'imgs': [image.image.url for image in place.images.all()],
         'description_short': place.long_description,
         'description_long': place.short_description,
-        'coordinates': place.coordinates,
+        'coordinates': place.get_coordinates,
     }
     data = json.dumps(data, ensure_ascii=False)
     return HttpResponse(data, content_type='application/json')

@@ -6,9 +6,8 @@ class Place(models.Model):
     title = models.CharField(max_length=128, verbose_name='Название')
     short_description = models.TextField(verbose_name='Короткое описание', null=True, blank=True)
     long_description = HTMLField(verbose_name='Полное описание', null=True, blank=True)
-    coordinates = models.JSONField(default=dict(), verbose_name='Координаты', null=True, blank=True)
-    lng = models.FloatField(null=True, blank=True)
-    lat = models.FloatField(null=True, blank=True)
+    lng = models.FloatField(null=True, blank=True, verbose_name='Долгота')
+    lat = models.FloatField(null=True, blank=True, verbose_name='Широта')
 
     class Meta:
         verbose_name = 'Локация'
@@ -18,14 +17,12 @@ class Place(models.Model):
     def __str__(self):
         return self.title
 
-    def save(self, *args, **kwargs):
-        if self.lng and self.lat:
-            self.coordinates = {
-                'lng': self.lng,
-                'lat': self.lat
-            }
-        super(Place, self).save(*args, **kwargs)
-
+    @property
+    def get_coordinates(self):
+        return {
+            'lng': self.lng,
+            'lat': self.lat
+        }
 
 
 class PlaceImage(models.Model):
