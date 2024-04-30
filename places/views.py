@@ -1,10 +1,11 @@
 import json
+from django.db.models import Prefetch
 
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-
-from places.models import Place
+from django.http import JsonResponse
+from places.models import Place, PlaceImage
 
 
 def index(request):
@@ -41,13 +42,14 @@ def index(request):
 
 
 def place_detail(request, place_id):
-    place = get_object_or_404(Place, pk=place_id)
-    data = {
+    queryset = Place.objects.prefetch_related(Prefetch('images', queryset=PlaceImage.objects.all()))
+    place = get_object_or_404(queryset, pk=place_id)
+    place_details = {
         'title': place.title,
         'imgs': [image.image.url for image in place.images.all()],
-        'description_short': place.long_description,
-        'description_long': place.short_description,
+        'description_short': place.short_description,
+        'description_long': place.long_description,
         'coordinates': place.get_coordinates,
     }
-    data = json.dumps(data, ensure_ascii=False)
-    return HttpResponse(data, content_type='application/json')
+
+    return JsonResponse(place_details)

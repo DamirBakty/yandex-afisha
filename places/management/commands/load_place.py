@@ -5,6 +5,8 @@ from PIL import Image
 from django.core.files import File
 from django.core.management.base import BaseCommand
 from django.db import transaction
+from django.core.files.base import ContentFile
+
 from places.models import PlaceImage, Place
 
 
@@ -20,34 +22,51 @@ class Command(BaseCommand):
             try:
                 place_response = requests.get(url)
                 if place_response.status_code != 200:
-                    self.stdout.write(self.style.ERROR('Invalid URL'))
+                    self.stdout.write(self.style.ERROR('Invalid Place URL'))
 
-                title = place_response.json()['title']
-                description_short = place_response.json()['description_short']
-                description_long = place_response.json()['description_long']
-                coordinates = place_response.json()['coordinates']
-                place = Place(
+                place_data = place_response.json()
+                if 'error' in place_data:
+                    self.stdout.write(self.style.ERROR(place_data['error']))
+
+                title = place_data['title']
+                description_short = place_data['description_short']
+                description_long = place_data['description_long']
+                lat = place_data['coordinates']['lat']
+                lng = place_data['coordinates']['lng']
+                place, created = Place.objects.get_or_create(
                     title=title,
-                    long_description=description_long,
-                    coordinates=coordinates,
-                    short_description=description_short
+                    defaults={
+                        'short_description': description_short,
+                        'long_description': description_long,
+                        'lat': lat,
+                        'lng': lng
+                    }
                 )
-                place.save()
 
-                images_urls = place_response.json()['imgs']
+                if not created:
+                    self.stdout.write(self.style.ERROR('Place is already loaded'))
+
+                images_urls = place_data['imgs']
                 places_images = []
 
                 for image_url in images_urls:
-                    r = requests.get(image_url)
-                    image = Image.open(BytesIO(r.content))
+                    image_response = requests.get(image_url)
+                    if image_response.status_code != 200:
+                        self.stdout.write(self.style.ERROR('Invalid Image URL'))
+
+                    if 'error' in image_response.json():
+                        self.stdout.write(self.style.ERROR(image_response.json()['error']))
+
+                    image = Image.open(BytesIO(image_response.content))
                     temp_image = BytesIO()
                     image.save(temp_image, format='JPEG')
                     temp_image.seek(0)
 
-                    place_image = PlaceImage(
-                        place=place
-                    )
-                    place_image.image.save('place_image.jpg', File(temp_image))
+                    content_file = ContentFile(temp_image.getvalue())
+
+                    place_image = PlaceImage(place=place)
+
+                    place_image.image.save('place_image.jpg', content_file)
                     places_images.append(place_image)
 
                 PlaceImage.objects.bulk_create(places_images, ignore_conflicts=True)
