@@ -22,11 +22,9 @@ class Command(BaseCommand):
             try:
                 place_response = requests.get(url)
                 if place_response.status_code != 200:
-                    self.stdout.write(self.style.ERROR('Invalid Place URL'))
+                    return self.stdout.write(self.style.ERROR('Invalid Place URL'))
 
                 place_data = place_response.json()
-                if 'error' in place_data:
-                    self.stdout.write(self.style.ERROR(place_data['error']))
 
                 title = place_data['title']
                 description_short = place_data['description_short']
@@ -44,7 +42,7 @@ class Command(BaseCommand):
                 )
 
                 if not created:
-                    self.stdout.write(self.style.ERROR('Place is already loaded'))
+                    return self.stdout.write(self.style.ERROR('Place is already loaded'))
 
                 images_urls = place_data['imgs']
                 places_images = []
@@ -52,10 +50,7 @@ class Command(BaseCommand):
                 for image_url in images_urls:
                     image_response = requests.get(image_url)
                     if image_response.status_code != 200:
-                        self.stdout.write(self.style.ERROR('Invalid Image URL'))
-
-                    if 'error' in image_response.json():
-                        self.stdout.write(self.style.ERROR(image_response.json()['error']))
+                        return self.stdout.write(self.style.ERROR('Invalid Image URL'))
 
                     image = Image.open(BytesIO(image_response.content))
                     temp_image = BytesIO()
@@ -73,4 +68,4 @@ class Command(BaseCommand):
 
                 print('Finished Creating a place')
             except Exception as e:
-                self.stdout.write(self.style.ERROR(e))
+                return self.stdout.write("Error", self.style.ERROR(e))
